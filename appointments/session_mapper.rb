@@ -3,6 +3,7 @@ require 'date'
 class SessionMapper
 
   def self.call(old_times, new_times)
+    suspended_times = old_times.filter { |ot| ot[:state] == 'suspended' }
     old_times = old_times.reject { |ot| ot[:state] == 'suspended' }
     old_times = old_times.sort_by { |ot| DateTime.parse ot[:starts_at]}
     new_times = new_times.sort_by { |nt| DateTime.parse nt[:starts_at]}
@@ -12,6 +13,8 @@ class SessionMapper
       old_times[2] => new_times[2],
       old_times[3] => new_times[3],
       old_times[4] => new_times[4],
-      old_times[5] => new_times[5]}
+      old_times[5] => new_times[5],
+      suspended_times[0] => 'N/A',
+      suspended_times[1] => 'N/A'}
   end
 end

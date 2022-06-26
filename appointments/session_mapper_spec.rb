@@ -72,26 +72,24 @@ RSpec.describe 'SessionMapper' do
     }
   ]
 
-  context "'old_times' in chronological order" do
-    it 'returns the correct values' do
-      result = SessionMapper.call(old_times, new_times)
-      expect(result[old_times[0]]).to eq(new_times[0])
-      expect(result[old_times[1]]).to eq(nil)
-      expect(result[old_times[2]]).to eq(new_times[1])
-      expect(result[old_times[3]]).to eq(nil)
-      expect(result[old_times[4]]).to eq(new_times[2])
-      expect(result[old_times[5]]).to eq(new_times[3])
-      expect(result[old_times[6]]).to eq(new_times[4])
-      expect(result[old_times[7]]).to eq(new_times[5])
-    end
+  it 'returns the correct values' do
+    result = SessionMapper.call(old_times, new_times)
+    expect(result[old_times[0]]).to eq(new_times[0])
+    expect(result[old_times[1]]).to eq('N/A')
+    expect(result[old_times[2]]).to eq(new_times[1])
+    expect(result[old_times[3]]).to eq('N/A')
+    expect(result[old_times[4]]).to eq(new_times[2])
+    expect(result[old_times[5]]).to eq(new_times[3])
+    expect(result[old_times[6]]).to eq(new_times[4])
+    expect(result[old_times[7]]).to eq(new_times[5])
   end
 
   it "returns the correct values when 'old_times' is not in chronological order" do
     result = SessionMapper.call(old_times.reverse, new_times)
     expect(result[old_times[0]]).to eq(new_times[0])
-    expect(result[old_times[1]]).to eq(nil)
+    expect(result[old_times[1]]).to eq('N/A')
     expect(result[old_times[2]]).to eq(new_times[1])
-    expect(result[old_times[3]]).to eq(nil)
+    expect(result[old_times[3]]).to eq('N/A')
     expect(result[old_times[4]]).to eq(new_times[2])
     expect(result[old_times[5]]).to eq(new_times[3])
     expect(result[old_times[6]]).to eq(new_times[4])
@@ -103,13 +101,17 @@ RSpec.describe 'SessionMapper' do
     expect(result.values.first).to eq(new_times.first)
   end
 
-  it "removes 'suspended' sessions" do
+  it "uses 'N/A for 'suspended' sessions" do
     result = SessionMapper.call(old_times, new_times)
-    expect(result.keys.filter{ | k | k[:state] == 'suspended'}).to be_empty
+    suspended_sessions = result.filter { |k, v| k[:state] == 'suspended' }
+    expect(suspended_sessions.count).to eq(2)
+    suspended_sessions.values.each do |v|
+      expect(v).to eq('N/A')
+    end
   end
 
   it 'returns the correct number of sessions' do
     result = SessionMapper.call(old_times, new_times)
-    expect(result.count).to eq(6)
+    expect(result.count).to eq(8)
   end
 end
