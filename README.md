@@ -1,4 +1,4 @@
-# appointments
+# Appointments
 This sorts appointments based from an old to a new schedule on their most relevant timeslot.
 
 # Running the tests
