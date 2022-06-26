@@ -21,7 +21,6 @@ RSpec.describe 'SessionMapper' do
     {
     starts_at: '2021-06-23T11:15:00Z',
     ends_at: '2021-06-23T12:00:00Z',
-
     state: 'suspended'
     },
     {
@@ -74,9 +73,16 @@ RSpec.describe 'SessionMapper' do
     }
   ]
 
-  it 'returns the correct old time as the hash key' do
+  it 'returns the correct values' do
     result = SessionMapper.call(old_times, new_times)
-    expect(result.keys.first).to eq(old_times.first)
+    expect(result[old_times[0]]).to eq(new_times[0])
+    expect(result[old_times[1]]).to eq(nil)
+    expect(result[old_times[2]]).to eq(new_times[1])
+    expect(result[old_times[3]]).to eq(nil)
+    expect(result[old_times[4]]).to eq(new_times[2])
+    expect(result[old_times[5]]).to eq(new_times[3])
+    expect(result[old_times[6]]).to eq(new_times[4])
+    expect(result[old_times[7]]).to eq(new_times[5])
   end
 
   it 'returns the correct new time as the hash value' do
