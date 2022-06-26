@@ -78,4 +78,14 @@ RSpec.describe 'SessionMapper' do
     result = SessionMapper.call(old_times, new_times)
     expect(result.keys.first).to eq(old_times.first)
   end
+
+  it 'returns the correct new time as the hash value' do
+    result = SessionMapper.call(old_times, new_times)
+    expect(result.values.first).to eq(new_times.first)
+  end
+
+  it "removes 'suspended' sessions" do
+    result = SessionMapper.call(old_times, new_times)
+    expect(result.keys.filter{ | k | k[:state] == 'suspended'}).to be_empty
+  end
 end
