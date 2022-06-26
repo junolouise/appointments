@@ -2,7 +2,7 @@ require 'rspec'
 require_relative 'session_mapper'
 
 RSpec.describe 'SessionMapper' do
-  old_times = [
+  let(:old_times) {[
     {
     starts_at: '2021-06-23T09:00:00Z',
     ends_at: '2021-06-23T09:45:00Z',
@@ -43,9 +43,9 @@ RSpec.describe 'SessionMapper' do
     ends_at: '2021-06-23T16:30:00Z',
     state: 'booked'
     }
-  ]
+  ]}
 
-  new_times = [
+  let(:new_times) {[
     {
     starts_at: '2021-06-23T09:00:00Z',
     ends_at: '2021-06-23T09:50:00Z'
@@ -70,7 +70,7 @@ RSpec.describe 'SessionMapper' do
     starts_at: '2021-06-23T15:00:00Z',
     ends_at: '2021-06-23T15:50:00Z'
     }
-  ]
+  ]}
 
   it 'returns the correct values' do
     result = SessionMapper.call(old_times, new_times)
