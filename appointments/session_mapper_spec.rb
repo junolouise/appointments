@@ -88,4 +88,9 @@ RSpec.describe 'SessionMapper' do
     result = SessionMapper.call(old_times, new_times)
     expect(result.keys.filter{ | k | k[:state] == 'suspended'}).to be_empty
   end
+
+  it 'returns the correct number of sessions' do
+    result = SessionMapper.call(old_times, new_times)
+    expect(result.count).to eq(6)
+  end
 end
